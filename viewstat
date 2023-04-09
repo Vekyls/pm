@@ -1,0 +1,69 @@
+local gui = Instance.new("ScreenGui")
+gui.Name = "TargetNameGui"
+gui.Parent = game.CoreGui
+
+local targetFrame = Instance.new("Frame")
+targetFrame.Name = "TargetFrame"
+targetFrame.Parent = gui
+targetFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
+targetFrame.Size = UDim2.new(0, 300, 0, 200)
+targetFrame.Active = true
+targetFrame.Draggable = true
+
+local closeButton = Instance.new("TextButton")
+closeButton.Name = "CloseButton"
+closeButton.Parent = targetFrame
+closeButton.AnchorPoint = Vector2.new(1, 0)
+closeButton.Position = UDim2.new(1, -10, 0, 10)
+closeButton.Size = UDim2.new(0, 20, 0, 20)
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.new(1, 1, 1)
+closeButton.BackgroundColor3 = Color3.new(1, 0, 0)
+closeButton.Font = Enum.Font.SourceSansBold
+closeButton.TextScaled = true
+closeButton.BorderSizePixel = 0
+closeButton.ZIndex = 10
+
+local targetLabel = Instance.new("TextLabel")
+targetLabel.Name = "TargetLabel"
+targetLabel.Parent = targetFrame
+targetLabel.Position = UDim2.new(0, 0, 0, 20)
+targetLabel.Size = UDim2.new(0, 300, 0, 40)
+targetLabel.Text = "Enter target name:"
+targetLabel.TextScaled = true
+
+local targetInput = Instance.new("TextBox")
+targetInput.Name = "TargetInput"
+targetInput.Parent = targetFrame
+targetInput.Position = UDim2.new(0, 0, 0, 80)
+targetInput.Size = UDim2.new(0, 200, 0, 40)
+targetInput.ClearTextOnFocus = false
+
+local okButton = Instance.new("TextButton")
+okButton.Name = "OkButton"
+okButton.Parent = targetFrame
+okButton.Position = UDim2.new(0, 50, 0, 140)
+okButton.Size = UDim2.new(0, 100, 0, 40)
+okButton.Text = "OK"
+okButton.Font = Enum.Font.SourceSansBold
+okButton.TextScaled = true
+okButton.BorderSizePixel = 0
+okButton.ZIndex = 10
+
+closeButton.MouseButton1Click:Connect(function()
+    gui:Destroy()
+end)
+
+okButton.MouseButton1Click:Connect(function()
+    local targetName = targetInput.Text
+    local playerData = game:GetService("ReplicatedStorage").Player_Datas[targetName]
+    if playerData then
+        local hollowProgression = playerData.Slot_1.HollowProgression
+        local exp = hollowProgression.Exp.Value
+        local maxExp = hollowProgression.MaxExp.Value
+        print("Exp: " .. exp)
+        print("Max Exp: " .. maxExp)
+    else
+        print("Player not found")
+    end
+end)
